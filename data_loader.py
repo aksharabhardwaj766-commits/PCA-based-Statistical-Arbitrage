@@ -20,9 +20,10 @@ def get_financial_tickers():
     return tickers
 
 def get_returns(tickers, start='2018-01-01', end='2025-01-01'):
-    prices = yf.download(tickers, start=start, end=end)['Close']
+    prices = yf.download(tickers, start=start, end=end, auto_adjust=True)['Close']
     returns = prices.pct_change()
     returns = returns.dropna(axis=1, thresh=int(0.95 * len(returns)))
     returns = returns.dropna()
+    print('after:', returns.shape)
     return returns
 
