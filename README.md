@@ -14,6 +14,38 @@ A statistical arbitrage strategy using PCA-based eigenportfolios on Financial se
 - Financial sector tickers
 - Daily OHLCV data pulled via  ```yfinance```
 
+## Results (5 bps cost)
+
+- Net Sharpe: **0.44** (0.64 at 0 bps, 0.24 at 10bps)
+- Annual return 2.1%, vol 4.8%, max drawdown -9.8%, hit rate 51.8%
+
+## Sharpe
+
+- Returns per unit risk: `sqrt(252) * mean/std` of daily returns.
+- Risk free is taken as 0.
+
+## Beta Check
+
+- Tests if the profit comes from stock selection or just from the market.
+- `mkt` = equal-weighted average of the 74 Financials stocks.
+- `beta` = `cov(net, mkt)/var(mkt)`
+- `resid` = `net-beta * mkt` (strategy with the market removed).
+
+|Metric | Value |
+|---|---|
+| beta | 0.119 |
+| Correlation with market | 0.595
+| Sharpe net | 0.44
+| sharpe after removing market | 0.03
+| residual sharpe 2018-21/2022-24 | 0.36/ -0.44
+
+## Conclusion
+
+- Almost all of the 0.44 Sharpe comes from market exposure, not from the signal.
+- The residual edge is about zero and unstable across periods.
+- This is an honest null result. 
+- Next step: enforce dollar neutrality and lower turnover.
+
 ## Pipeline
 
 1. ### Data Loading (```data_loader.py```)
@@ -59,8 +91,8 @@ pca-stat-arb/
 
 - ✅ Phase 1: Data loading
 - ✅ Phase 2: PCA / eigenportfolios
-- 🔄 Phase 3: residual signal (in progress)
-- ⬜️ Phase 4: Backtest
+- ✅ Phase 3: residual signal (in progress)
+- ✅ Phase 4: Backtest
 
 ## Requirements
 
